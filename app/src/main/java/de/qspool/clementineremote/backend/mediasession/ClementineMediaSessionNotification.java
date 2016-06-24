@@ -108,7 +108,9 @@ public class ClementineMediaSessionNotification extends ClementineMediaSession {
         // Play or pause?
         Intent intentPlayPause = new Intent(mContext, ClementineBroadcastReceiver.class);
         Intent intentNext = new Intent(mContext, ClementineBroadcastReceiver.class);
+        Intent intentDisconnect = new Intent(mContext, ClementineBroadcastReceiver.class);
         intentNext.setAction(ClementineBroadcastReceiver.NEXT);
+        intentDisconnect.setAction(ClementineBroadcastReceiver.DISCONNECT);
 
         if (App.Clementine.getState() == Clementine.State.PLAY) {
             mNotificationView.setImageViewResource(R.id.noti_play_pause,
@@ -127,7 +129,10 @@ public class ClementineMediaSessionNotification extends ClementineMediaSession {
                 PendingIntent
                         .getBroadcast(mContext, 0, intentNext,
                                 PendingIntent.FLAG_ONE_SHOT));
-
+        mNotificationView.setOnClickPendingIntent(R.id.noti_quit,
+                PendingIntent
+                        .getBroadcast(mContext, 0, intentDisconnect,
+                                PendingIntent.FLAG_ONE_SHOT));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             notifyV15();
         } else {
